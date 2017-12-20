@@ -1,0 +1,143 @@
+<!--<!doctype html>
+<html ng-app="MyModule">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<hello><p>测试是否会替换掉指令内部内容</p></hello>
+
+<div hello><p>测试是否会替换掉指令内部内容</p></div>
+<script src="js/angular-1.3.0.js"></script>
+&lt;!&ndash;<script src="HelloAngular_Directive.js"></script>&ndash;&gt;
+<script>
+    // 自己模仿实现
+    angular
+        .module('MyModule', [])
+        .directive('hello', function () {
+            var option = {
+                restrict: 'AE',
+                template: '<h1>我的第一个指令！！！<sapn ng-transclude=""></sapn></h1>',
+                // replace:false, // true会使用模板内容替换掉整个节点，false替换节点内容；
+                transclude: true, // true会保留替换前的节点内容，false直接覆盖原有内容-&#45;&#45;ng-transclude决定在什么地方嵌入内容
+            };
+            return option;
+        })
+</script>
+</body>
+
+</html>-->
+
+
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>My AngularJS App</title>
+    <script src="http://sandbox.runjs.cn/uploads/rs/376/pbcx3e1z/angular.min.js"></script>
+    <script src="http://sandbox.runjs.cn/uploads/rs/376/pbcx3e1z/angular-route.min.js"></script>
+</head>
+
+<body>
+<hello>
+    <br/>
+    <span>原始的内容，</span><br/>
+    <span>还会在这里。</span>
+</hello>
+<hello></hello>
+
+<br>
+
+<hello1>
+    <br/>
+    <span>原始的内容1，</span><br/>
+    <span>还会在这里1。</span>
+</hello1>
+<hello1></hello1>
+<br>
+
+<hello2>
+    <br/>
+    <span>原始的内容2，</span><br/>
+    <span>还会在这里2。</span>
+</hello2>
+<hello2></hello2>
+<br>
+
+<hello3>
+    <br/>
+    <span>原始的内容3，</span><br/>
+    <span>还会在这里3。</span>
+</hello3>
+<hello3></hello3>
+
+<br>
+<hello4>
+    <br/>
+    <span>原始的内容4，</span><br/>
+    <span>还会在这里4。</span>
+</hello4>
+<hello4></hello4>
+
+<br>
+<hello5>
+    <br/>
+    <span>原始的内容5，</span><br/>
+    <span>还会在这里5。</span>
+</hello5>
+<hello5></hello5>
+
+<script>
+    // 详解指令中replace与transclude---细看！！！！
+    var appModule = angular.module('app', []);
+    appModule
+        .directive('hello', function () {
+            return {
+                restrict: 'E',
+                template: '<div>Hi there :transclude: true<span ng-transclude></span></div>',
+                transclude: true
+                /*把<hello>标签替换成我们所编写的HTML模板，
+                但是<hello>标签内部的内容保持不变。*/
+            };
+        })
+        .directive('hello1', function () {
+            return {
+                restrict: 'E',
+                template: '<div>Hi there 1 :transclude: false<span ng-transclude></span></div>',
+                transclude: false
+            };
+        })
+        .directive('hello2', function () {
+            return {
+                restrict: 'E',
+                template: '<div>Hi there 2 :replace: true</div>',
+                replace: true/* 将视图模板template替换到指定位置hello2--hello2元素没啦 */
+            };
+        })
+        .directive('hello3', function () {
+            return {
+                restrict: 'E',
+                template: '<div>Hi there 3 : replace: false</div>',
+                replace: false/*默认为 false*/
+                /* 将视图模板template替换到指定位置hello2--hello2元素仍存在*/
+            };
+        })
+        .directive('hello4', function () {
+            return {
+                restrict: 'E',
+                /*ng-tranclude决定了在什么地方放置嵌入部分。*/
+                template: '<div>Hi there 4 :replace: true,  transclude: true<span ng-transclude></span></div>',
+                replace: true, /*默认为 false*/
+                transclude: true
+            };
+        })
+        .directive('hello5', function () {
+            return {
+                restrict: 'E',
+                template: '<div>Hi there 5 :replace: false,  transclude: false<span ng-transclude></span></div>',
+                replace: false, /*默认为 false*/
+                transclude: false
+            };
+        });
+</script>
+</body>
+</html>
